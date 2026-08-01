@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#111111">
+    <title>Tortue Survivor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="source/animations/pixelbg_mov_1.mp4" as="video" type="video/mp4">
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="overlay" style="z-index: 10000;">
+        <div style="text-align: center; font-family: 'Roboto', sans-serif;">
+            <h2 id="loading-text" style="margin-bottom: 20px;">Chargement en cours...</h2>
+            <div style="width: 300px; height: 20px; background: rgba(0,0,0,0.5); border: 2px solid #555; border-radius: 10px; overflow: hidden; margin: 0 auto;">
+                <div id="loading-progress-bar" style="width: 0%; height: 100%; background: #3498db; transition: width 0.2s;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- HUD -->
+        <div id="hud">
+            <div id="timer">00:00</div>
+            <div id="xp-container">
+                <div id="xp-bar"></div>
+            </div>
+            <div id="convinced-counter">Convaincus : 0</div>
+            <div id="level">Lvl 1</div>
+            <div id="music-ui">
+                <span id="music-title">...</span>
+                <button id="music-toggle-btn" type="button"><i data-lucide="pause" style="width:14px;height:14px;"></i></button>
+                <button id="next-music-btn" type="button"><i data-lucide="skip-forward" style="width:14px;height:14px;"></i></button>
+            </div>
+            <button id="hud-pause-btn" type="button">
+                <i data-lucide="pause" style="width:22px;height:22px;"></i>
+            </button>
+            <div id="health-globe-container" title="Santé">
+                <div id="health-globe"></div>
+                <div id="health-globe-text">100</div>
+            </div>
+            <div id="combo-container" title="Combo Journalistes">
+                <div id="combo-bar"></div>
+                <span id="combo-text">0/30 <i data-lucide="camera" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i></span>
+            </div>
+            <div id="combo-poli-container" title="Combo Politiciens">
+                <div id="combo-poli-bar"></div>
+                <span id="combo-poli-text">0/15 <i data-lucide="briefcase" style="width:14px;height:14px;display:inline-block;vertical-align:middle;"></i></span>
+            </div>
+            <div id="ally-defense-indicator" class="hidden" title="Défense augmentée">
+                <i data-lucide="shield" style="width:16px;height:16px;"></i> +
+            </div>
+            <button id="touch-dash-btn" type="button">
+                <i data-lucide="wind" style="width:28px;height:28px;"></i>
+            </button>
+            <div id="joystick-container" class="hidden" style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: rgba(0, 0, 0, 0.35); border: 2px solid rgba(255, 255, 255, 0.4); pointer-events: none; z-index: 50; transform: translate(-50%, -50%); opacity: 0.6; backdrop-filter: blur(4px); transition: opacity 0.2s;">
+                <div id="joystick-knob" style="position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.75); transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0,0,0,0.5);"></div>
+            </div>
+            <div id="powers-hud"></div>
+            <div id="low-hp-vignette"></div>
+        </div>
+        
+        <!-- Flash overlay for hit feedback -->
+        <div id="flash-overlay"></div>
+        
+        <div id="kill-feed"></div>
+
+        <!-- Breaking News Banner -->
+        <div id="breaking-news-banner" class="hidden">
+            <div class="news-ticker-container">
+                <span class="breaking-news-text"></span>
+            </div>
+        </div>
+
+        <div id="item-pointer" class="hidden"><i data-lucide="scale" style="width:32px;height:32px;"></i></div>
+
+        <!-- Overlays -->
+        <div id="start-screen" class="overlay" style="background-color: transparent;">
+            <video id="bg-video" autoplay loop muted playsinline preload="auto" poster="source/logo_splash.png" src="source/animations/pixelbg_mov_1.mp4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 1;"></video>
+            
+            <div id="start-menu-panel">
+                <div id="start-logo-area">
+                    <div id="logo-stage">
+                        <img src="source/logo_splash.png" id="main-logo" alt="TORTUE SURVIVOR">
+                        <div id="mc-splash" aria-hidden="true"></div>
+                        <div id="logo-spark-layer" aria-hidden="true"></div>
+                    </div>
+                    <p class="menu-subtitle">Sauvez la République.</p>
+                </div>
+                
+                <div id="start-buttons-area" class="vertical-menu">
+                    <button id="start-btn" class="primary-btn">Jouer</button>
+                    <button id="bonus-btn">Bonus</button>
+                    <button id="nav-options-btn">Options</button>
+                    <button id="nav-enemies-btn">Ennemis</button>
+                    <button id="nav-attacks-btn">Attaques</button>
+                    <button id="nav-help-btn">Aide</button>
+                    <button id="nav-about-btn">À Propos</button>
+                    <button id="quit-app-btn" class="danger-btn desktop-only">Quitter</button>
+                </div>
+                <p id="controls-hint-text" class="controls-hint">Joystick virtuel · Bouton dash à droite</p>
+                <div id="menu-music-bar">
+                    <span id="menu-music-title">Title Theme Tortue Survivor</span>
+                    <div class="menu-music-controls">
+                        <button type="button" id="menu-music-toggle-btn" aria-label="Pause musique">
+                            <i data-lucide="pause" style="width:16px;height:16px;"></i>
+                        </button>
+                        <button type="button" id="menu-music-next-btn" aria-label="Piste suivante">
+                            <i data-lucide="skip-forward" style="width:16px;height:16px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="level-up-screen" class="overlay hidden">
+            <h2>Niveau Supérieur !</h2>
+            <div id="power-choices" class="power-choices-scroll">
+                <!-- Buttons will be injected here -->
+            </div>
+            <button id="reroll-btn">Relancer <span id="reroll-count">(3)</span> <i data-lucide="refresh-cw" style="width:16px; height:16px; display:inline-block; vertical-align:middle;"></i></button>
+        </div>
+
+        <div id="game-over-screen" class="overlay hidden">
+            <h2>Game Over</h2>
+            <p id="survival-time"></p>
+            <button id="restart-btn">Rejouer</button>
+        </div>
+        
+        <div id="fade-to-black" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 999; opacity: 0; transition: opacity 5s linear; pointer-events: none;"></div>
+        <video id="victory-video" class="hidden" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; z-index: 1000;" src="source/animations/winning_screen.mp4"></video>
+
+        <div id="victory-screen" class="overlay hidden">
+            <h1 style="color: #f1c40f;">VICTOIRE !</h1>
+            <p>La 6ème République est proclamée !</p>
+            <div id="victory-unlocks"></div>
+            <div class="victory-actions">
+                <button id="victory-restart-btn">Rejouer</button>
+                <button id="victory-menu-btn" style="background: #d35400;">Retour au Menu</button>
+            </div>
+            <button id="prestige-btn" class="hidden" style="margin-top: 20px; background: linear-gradient(45deg, #f1c40f, #e67e22, #e74c3c); border: 2px solid #fff; font-weight: bold; text-transform: uppercase;">Mode Prestige 🌟</button>
+        </div>
+
+        <div id="pause-screen" class="overlay hidden">
+            <h2>Jeu en Pause</h2>
+            <div id="settings">
+                <p style="color: #aaa; text-align: center; margin-bottom: 20px;">La tortue survit, mais elle fait une pause</p>
+            </div>
+            <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%; max-width: 300px;">
+                <button id="resume-btn" style="width: 100%;">Reprendre</button>
+                <button id="pause-restart-btn" style="width: 100%; background: #2980b9;">Recommencer</button>
+                <button id="pause-sound-btn" style="width: 100%; background: #27ae60;">Son: Activé</button>
+                <button id="quit-btn" style="width: 100%; background: #d35400;">Retour Menu</button>
+                <button id="pause-quit-btn" style="width: 100%; background: #c0392b;" class="desktop-only">Quitter le jeu</button>
+            </div>
+            <div class="menu-nav">
+                <button id="pause-options-btn">Options</button>
+                <button id="pause-enemies-btn">Ennemis</button>
+                <button id="pause-attacks-btn">Attaques</button>
+                <button id="pause-help-btn">Aide</button>
+                <button id="pause-about-btn">À Propos</button>
+            </div>
+        </div>
+
+        <div id="pause-lite-screen" class="overlay hidden" style="background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); pointer-events: none;">
+            <h2 style="font-size: 3rem; text-shadow: 2px 2px 0 #000;">Pause légère</h2>
+        </div>
+        
+
+        <!-- Sub-menus -->
+        <div id="help-menu" class="overlay hidden">
+            <h2>Aide & Contrôles</h2>
+            <div class="menu-content scrollable">
+                <h3>Contrôles tactiles</h3>
+                <ul>
+                    <li><strong>Joystick virtuel</strong> : touchez et glissez pour vous déplacer</li>
+                    <li><strong>Bouton dash</strong> (bas droite) : esquive rapide</li>
+                    <li><strong>Bouton pause</strong> (haut gauche) : pause</li>
+                </ul>
+                <div class="desktop-only" id="settings" style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
+                    <p style="font-size: 14px; color: #ccc;">Redéfinir les touches clavier :</p>
+                    <div class="keybind-row"><span>Haut:</span><button class="keybind-btn" data-action="up" id="bind-up">z</button></div>
+                    <div class="keybind-row"><span>Bas:</span><button class="keybind-btn" data-action="down" id="bind-down">s</button></div>
+                    <div class="keybind-row"><span>Gauche:</span><button class="keybind-btn" data-action="left" id="bind-left">q</button></div>
+                    <div class="keybind-row"><span>Droite:</span><button class="keybind-btn" data-action="right" id="bind-right">d</button></div>
+                </div>
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <div id="options-menu" class="overlay hidden">
+            <h2>Options</h2>
+            <div class="menu-content options-panel">
+                <div class="option-row">
+                    <label for="volume-slider">Volume Principal</label>
+                    <input type="range" id="volume-slider" min="0" max="100" value="50">
+                </div>
+                <div class="option-row">
+                    <label for="ost-volume-slider">Volume Musique</label>
+                    <input type="range" id="ost-volume-slider" min="0" max="100" value="20">
+                </div>
+                <div class="option-row desktop-only">
+                    <label for="ui-scale-slider">Taille de l'UI</label>
+                    <input type="range" id="ui-scale-slider" min="60" max="160" value="100" step="5">
+                    <span id="ui-scale-label">100%</span>
+                </div>
+                <div class="option-row">
+                    <label for="show-damage-numbers">Afficher les dégâts</label>
+                    <input type="checkbox" id="show-damage-numbers" checked>
+                </div>
+                <div class="option-row desktop-only">
+                    <label for="resolution-select">Résolution</label>
+                    <select id="resolution-select">
+                        <option value="auto" selected>Auto</option>
+                    </select>
+                </div>
+                <div class="option-row desktop-only">
+                    <label for="fullscreen-toggle">Plein écran</label>
+                    <input type="checkbox" id="fullscreen-toggle">
+                </div>
+            </div>
+            <div class="save-slots-wrap">
+                <h3>Sauvegarde</h3>
+                <div class="save-slots-row">
+                    <div class="save-slot" id="save-slot-0" onclick="loadSave(0)">
+                        <div class="save-slot-number">Slot 1</div>
+                        <div class="save-slot-info" id="save-info-0">Vide</div>
+                        <div class="save-slot-actions">
+                            <button type="button" onclick="event.stopPropagation();saveGame(0)">Sauver</button>
+                            <button type="button" class="danger" onclick="event.stopPropagation();deleteSave(0)">X</button>
+                        </div>
+                    </div>
+                    <div class="save-slot" id="save-slot-1" onclick="loadSave(1)">
+                        <div class="save-slot-number">Slot 2</div>
+                        <div class="save-slot-info" id="save-info-1">Vide</div>
+                        <div class="save-slot-actions">
+                            <button type="button" onclick="event.stopPropagation();saveGame(1)">Sauver</button>
+                            <button type="button" class="danger" onclick="event.stopPropagation();deleteSave(1)">X</button>
+                        </div>
+                    </div>
+                    <div class="save-slot" id="save-slot-2" onclick="loadSave(2)">
+                        <div class="save-slot-number">Slot 3</div>
+                        <div class="save-slot-info" id="save-info-2">Vide</div>
+                        <div class="save-slot-actions">
+                            <button type="button" onclick="event.stopPropagation();saveGame(2)">Sauver</button>
+                            <button type="button" class="danger" onclick="event.stopPropagation();deleteSave(2)">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <div id="enemies-menu" class="overlay hidden">
+            <h2>Bestiaire</h2>
+            <div class="menu-content scrollable">
+                
+                <details class="bestiary-item">
+                    <summary><img src="source/journaR.png" alt="Journaliste" class="bestiary-img" onclick="openLightbox(this.src)"> Journaliste</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 10 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 2.0</p>
+                        <p>L'ennemi de base, fragile mais plutôt rapide. S'attaquent en nombre.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/poliRI.png" alt="Politique" class="bestiary-img" onclick="openLightbox(this.src)"> Politique</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 20 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 1.5</p>
+                        <p>Vitesse moyenne. Évitez de vous faire encercler.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/usright.png" alt="Milliardaire" class="bestiary-img" onclick="openLightbox(this.src)"> Milliardaire</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 30 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 2.5</p>
+                        <p><strong>Spécial:</strong> 25% de chance d'Évasion Fiscale (Esquive).</p>
+                        <p>Ennemi très rapide et résistant grâce à son aura d'esquive.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/glucksR.png" alt="Glucksmann" class="bestiary-img" onclick="openLightbox(this.src)"> Glucksmann</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 20 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 1.0</p>
+                        <p><strong>Projectile (Pavé de Texte):</strong> 0 Dégât mais encombre l'écran.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/glucksR.png" alt="Mega Glucksmann" class="bestiary-img" onclick="openLightbox(this.src)"> Mega Glucksmann</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 40 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 1.0</p>
+                        <p>Apparaît après avoir convaincu 15 Glucksmann classiques. Une variante XXL très imposante.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/tondR.png" alt="Mega Tondelier" class="bestiary-img" onclick="openLightbox(this.src)"> Mega Tondelier</summary>
+                    <div class="bestiary-details">
+                        <p><strong>HP:</strong> 60 | <strong>Dégâts de Contact:</strong> 5 | <strong>Vitesse:</strong> 1.0</p>
+                        <p>Apparaît après avoir convaincu 15 Politiciens classiques. Sa veste verte cache une santé de fer.</p>
+                    </div>
+                </details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px;">Allié(e)s</h3>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/roussoR.png" alt="Sandrine" class="bestiary-img" onclick="openLightbox(this.src)"> Sandrine</summary>
+                    <div class="bestiary-details">
+                        <p><strong>Effet:</strong> Aura de dégâts + Défense augmentée</p>
+                        <p>Rejoint la lutte pour infliger des dégâts aux ennemis proches.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/rimaR.png" alt="Rima" class="bestiary-img" onclick="openLightbox(this.src)"> Rima</summary>
+                    <div class="bestiary-details">
+                        <p><strong>Effet:</strong> Aura de dégâts + Défense augmentée</p>
+                        <p>Soutien précieux dans la mêlée.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/poutouR.png" alt="Poutou" class="bestiary-img" onclick="openLightbox(this.src)"> Poutou</summary>
+                    <div class="bestiary-details">
+                        <p><strong>Effet:</strong> Aura de dégâts + Défense augmentée</p>
+                        <p>L'anticapitalisme en action contre les vagues ennemies.</p>
+                    </div>
+                </details>
+
+                <details class="bestiary-item">
+                    <summary><img src="source/ruffin.png" alt="Ruffin le poète" class="bestiary-img" onclick="openLightbox(this.src)"> Ruffin le poète</summary>
+                    <div class="bestiary-details">
+                        <p><strong>Effet:</strong> Attaque aléatoire de 1 dégât</p>
+                        <p>Allié, mais ses attaques sont très très faibles...</p>
+                    </div>
+                </details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px;">Mini-Boss Spécial</h3>
+
+                <details class="bestiary-item" id="learaph-bestiary-entry">
+                    <summary><img src="source/learaph.png" alt="???" class="bestiary-img boss-silhouette" id="learaph-bestiary-img"> <span id="learaph-bestiary-name">?????</span></summary>
+                    <div class="bestiary-details">
+                        <p id="learaph-bestiary-desc">Duo mystère non découvert...</p>
+                    </div>
+                </details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px;">Boss Final</h3>
+
+                <details class="bestiary-item" id="boss-bestiary-entry">
+                    <summary><img src="source/marinelpdroite.png" alt="???" class="bestiary-img boss-silhouette" id="boss-bestiary-img"> <span id="boss-bestiary-name">?????</span></summary>
+                    <div class="bestiary-details">
+                        <p id="boss-bestiary-desc">Ce redoutable adversaire n'a pas encore été vaincu...</p>
+                    </div>
+                </details>
+
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <div id="about-menu" class="overlay hidden">
+            <button class="back-btn" style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: 2px solid #555; color: white; cursor: pointer; padding: 10px; border-radius: 5px; display: flex; align-items: center; justify-content: center; z-index: 100;"><i data-lucide="x" style="width:24px;height:24px;"></i></button>
+            <h2>À Propos</h2>
+            <div class="menu-content scrollable">
+                    <li>Ero M6 be like</li>
+                    <li>Espoir populaire</li>
+                    <li>La marche</li>
+                    <li>Latino Revolucion</li>
+                    <li>Les fantomes du capitalisme</li>
+                    <li>On est chill a boire un lait fraise</li>
+                    <li>POV Bernard Arnaud paye des impots</li>
+                    <li>POV je touche le smic a 1700euros</li>
+                    <li>Slow as Capitalism</li>
+                    <li>Un reve de pixels</li>
+                    <li>Wallah cest pas Nelly</li>
+                </ul>
+                <h3 style="margin-top:20px; font-size:1.2rem; color:#fff;">Le développement :</h3>
+                <p style="color: #aaa; font-size: 0.9rem;">Version 0.1 (alpha) — encore en développement<br>
+                Vibe codé avec l'ia.<br>
+                Projet personnel pour le fun. Aucun revenu ne sera généré par ce projet.</p>
+                <p style="margin-top: 15px;"><a href="https://www.instagram.com/t12lve/" target="_blank" style="color: #4da6ff; text-decoration: none;">Mon Instagram : @t12lve</a></p>
+                <p style="color: #888; margin-top: 15px;">© 2026 t12lve. Tous droits réservés.</p>
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <!-- Bonus Menu -->
+        <div id="bonus-menu" class="overlay hidden">
+            <button class="back-btn" style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: 2px solid #555; color: white; cursor: pointer; padding: 10px; border-radius: 5px; display: flex; align-items: center; justify-content: center; z-index: 100;"><i data-lucide="x" style="width:24px;height:24px;"></i></button>
+            <h2>Bonus</h2>
+            <div class="menu-content" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; min-width: 300px; text-align: center;">
+                <p style="margin-bottom: 20px; font-size: 14px; color: #ccc;">Finissez le jeu pour débloquer de nouveaux modes !</p>
+                <div id="bonus-turbo-container" class="hidden" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px;">
+                    <span style="font-weight: bold; color: #f39c12;"><i data-lucide="zap" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i> Mode Turbo (x2)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="turbo-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div id="bonus-ultraturbo-container" class="hidden" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px;">
+                    <span style="font-weight: bold; color: #e74c3c;"><i data-lucide="flame" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i> Mode Ultra Turbo (x4)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="ultraturbo-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <div id="attacks-menu" class="overlay hidden">
+            <h2>Pouvoirs &amp; Attaques</h2>
+            <div class="menu-content scrollable">
+                <h3 style="margin-top: 0; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.1rem; color: #e74c3c;">Armes & Projectiles</h3>
+                <details class="bestiary-item"><summary><i data-lucide="banknote" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> SMIC à 1700€</summary><div class="bestiary-details"><p>Tire des billets verts vers l'ennemi le plus proche. <strong>Dégâts:</strong> 10 | <strong>CD:</strong> 0.8s</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="droplet" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Service Public de l'Eau</summary><div class="bestiary-details"><p>Jet d'eau qui traverse tous les ennemis. <strong>Dégâts:</strong> 15 | <strong>CD:</strong> 2s | Pierce infini</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="inbox" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> La 6ème République</summary><div class="bestiary-details"><p>Urne tombant du ciel sur l'ennemi visé (AoE r=2.5). <strong>Dégâts:</strong> 40 | <strong>CD:</strong> 3s</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="cloud-lightning" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> ISF Climatique</summary><div class="bestiary-details"><p>Foudre ciblée sur l'ennemi le plus proche. <strong>Dégâts:</strong> 25 | <strong>CD:</strong> 1.5s</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="gavel" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Révocation des Élus</summary><div class="bestiary-details"><p>Météore RÉVOQUÉ sur l'ennemi le plus résistant. <strong>Dégâts:</strong> 100×niveau | <strong>CD:</strong> 5s</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="zap" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Le Rush Kranidos</summary><div class="bestiary-details"><p>Charge directionnelle + traînée de feu DoT. Invincible pendant la charge. <strong>Dégâts:</strong> 60×niveau | <strong>Feu:</strong> 8/s | <strong>CD:</strong> 10s</p></div></details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.1rem; color: #3498db;">Auras</h3>
+                <details class="bestiary-item"><summary><i data-lucide="leaf" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> La Règle Verte</summary><div class="bestiary-details"><p>Aura de contact qui inflige 5 dégâts/s aux ennemis proches.</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="clock" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Retraite à 60 ans</summary><div class="bestiary-details"><p>Aura qui ralentit les ennemis proches de 50%.</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="shield" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Garantie d'Autonomie</summary><div class="bestiary-details"><p>Orbe doré tournant qui frappe les ennemis proches (max 3 orbes).</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="globe" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Référendum d'Autodétermination</summary><div class="bestiary-details"><p>Zone aux couleurs Kanak : 30% de conversion des ennemis en alliés pendant 8s. <strong>CD:</strong> 8s</p></div></details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.1rem; color: #2ecc71;">Utilitaires & Soins</h3>
+                <details class="bestiary-item"><summary><i data-lucide="snowflake" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Blocage des Prix</summary><div class="bestiary-details"><p>Gèle TOUS les ennemis à l'écran pendant 3 secondes. <strong>CD:</strong> 8s</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="utensils" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Cantine Bio & Locale</summary><div class="bestiary-details"><p>Passif de soin : restaure 2 PV à chaque activation. <strong>CD:</strong> 5s</p></div></details>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 10px; font-size: 1.1rem; color: #f1c40f;">Passifs</h3>
+                <details class="bestiary-item"><summary><i data-lucide="percent" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Taxe Zucman</summary><div class="bestiary-details"><p>Passif : réduit l'esquive des milliardaires de -2% par niveau (min 0%).</p></div></details>
+                <details class="bestiary-item"><summary><i data-lucide="graduation-cap" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></i> Allocation d'Autonomie</summary><div class="bestiary-details"><p>Passif XP : +20% d'XP par bulletin de vote par niveau.</p></div></details>
+            </div>
+            <button class="back-btn" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <!-- Lightbox for Bestiary -->
+        <div id="lightbox-modal" class="hidden">
+            <img id="lightbox-img" src="" alt="Zoomed Sprite">
+        </div>
+
+        <!-- Custom Quit Prompt (Electron / pause quit) -->
+        <div id="quit-prompt-modal" class="overlay hidden" style="z-index: 200;">
+            <div style="background: #222; padding: 30px; border-radius: 10px; border: 2px solid #d32f2f; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.8);">
+                <h2>Quitter la partie ?</h2>
+                <p>Toute progression sera perdue.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+                    <button id="quit-confirm-btn" style="background: #e74c3c;">Oui, Quitter</button>
+                    <button id="quit-cancel-btn" style="background: #34495e;">Non, Reprendre</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Android: exit application -->
+        <div id="exit-app-modal" class="overlay hidden" style="z-index: 260;">
+            <div style="background: #222; padding: 28px 22px; border-radius: 10px; border: 2px solid #d32f2f; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.8); max-width: 90vw;">
+                <h2 style="margin-bottom: 10px;">Quitter Tortue Survivor ?</h2>
+                <p style="color:#ccc; margin-bottom: 18px;">L'application va se fermer.</p>
+                <div style="display: flex; flex-direction: column; gap: 12px; align-items: stretch;">
+                    <button id="exit-app-confirm-btn" style="background: #e74c3c; min-height: 48px;">Oui, quitter</button>
+                    <button id="exit-app-cancel-btn" style="background: #34495e; min-height: 48px;">Annuler</button>
+                </div>
+            </div>
+        </div>
+        <div id="back-exit-toast" class="hidden" aria-live="polite">Appuyez encore sur Retour pour quitter</div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>

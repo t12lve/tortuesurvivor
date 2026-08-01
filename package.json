@@ -1,0 +1,69 @@
+{
+  "name": "tortuesurvivor",
+  "version": "1.0.0",
+  "description": "Tortue Survivor - Jeu de survie politique",
+  "main": "electron_main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
+    "build:clean": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist_clean --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(source/animations/pixelbg_mov\\.webm|temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
+    "build:final": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist_final --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(source/animations/pixelbg_mov\\.webm|temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
+    "build:portable": "electron-builder --win portable",
+    "build:installer": "electron-builder --win nsis",
+    "android:sync": "node tools/android-safe-sync.js",
+    "android:open": "npx cap open android",
+    "android:build": "node tools/android-safe-sync.js && cd android && .\\gradlew.bat assembleDebug && copy /Y app\\build\\outputs\\apk\\debug\\app-debug.apk ..\\TortueSurvivor.apk",
+    "android:cap-update": "npx cap update android",
+    "android:keystore": "node tools/create-release-keystore.js",
+    "android:bundle": "node tools/android-bundle-release.js"
+  },
+  "build": {
+    "appId": "com.vibecoding.tortuesurvivor",
+    "productName": "TortueSurvivor",
+    "directories": {
+      "output": "dist_portable"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "source/tortuesurvivor_256.ico"
+    },
+    "portable": {
+      "artifactName": "TortueSurvivor.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "source/tortuesurvivor_256.ico",
+      "uninstallerIcon": "source/tortuesurvivor_256.ico",
+      "artifactName": "TortueSurvivor-Installer.exe"
+    },
+    "files": [
+      "**/*",
+      "!dist*",
+      "!dist_clean*",
+      "!dist_final*",
+      "!dist_portable*",
+      "!node_modules*",
+      "!temp_*",
+      "!neutralino_*",
+      "!build_exe.js",
+      "!**/*.psd",
+      "!source/animations/pixelbg_mov.webm"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.4.2",
+    "electron": "^43.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2"
+  },
+  "dependencies": {
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.4.2"
+  }
+}

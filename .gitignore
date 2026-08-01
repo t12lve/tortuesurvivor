@@ -1,0 +1,66 @@
+# Dependencies & local installs
+node_modules/
+
+# Local Play Store materials (not published on GitHub)
+docs/
+
+# Build / packaging outputs
+dist/
+dist_clean/
+dist_final/
+dist_portable/
+*.apk
+*.aab
+*.exe
+/TortueSurvivor.apk
+/TortueSurvivor-release.aab
+
+# Android secrets & generated — NEVER commit
+android/local.properties
+android/.gradle/
+android/**/build/
+**/*.jks
+**/*.keystore
+**/keystore.properties
+android/app/src/main/assets/public/
+android/capacitor-cordova-android-plugins/
+
+# Duplicate Android web assets (canonical copy lives in /source)
+www/source/
+
+# Design / editor junk (not needed to build)
+*.psd
+*.prproj
+*.prin
+Adobe Premiere Pro (Beta) Auto-Save/
+winning Masks/
+android _ files importantes/
+assets/
+.agents/
+temp_clone/
+temp_neu/
+neutralino_bin/
+neutralino-v5.6.0.zip
+neutralino.config.json
+build_exe.js
+
+# Scratch / orphan media at repo root only
+/pixelbg_mov_1.mp4
+/leftback.png
+/leftfront.png
+/rightback2.png
+/rightfront.png
+/mail.png
+/rimaR.png
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
