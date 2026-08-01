@@ -64,3 +64,9 @@ Thumbs.db
 __pycache__/
 *.pyc
 .venv/
+
+# Local scratch scripts
+/resize_icon.py
+/tools_patch_android_main.js
+tools/generate-play-store-pdf.py
+
