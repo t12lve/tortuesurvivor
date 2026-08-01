@@ -1,4 +1,5 @@
-  "appId": "com.t12lve.TortueSurvivor",
+{
+  "appId": "com.t12lve.tortuesurvivor",
   "appName": "Tortue Survivor",
   "webDir": "www",
   "bundledWebRuntime": false

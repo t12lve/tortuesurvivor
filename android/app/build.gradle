@@ -7,10 +7,10 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.t12lve.TortueSurvivor"
+    namespace = "com.t12lve.tortuesurvivor"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.t12lve.TortueSurvivor"
+        applicationId "com.t12lve.tortuesurvivor"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2

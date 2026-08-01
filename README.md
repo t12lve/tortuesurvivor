@@ -2,7 +2,7 @@
 
 Jeu survivor Android / desktop.
 
-- **Package Android** : `com.t12lve.TortueSurvivor`
+- **Package Android** : `com.t12lve.tortuesurvivor`
 - **Version** : `0.1.1` (versionCode 2)
 - **Politique de confidentialité** : https://t12lve.github.io/tortuesurvivor/privacy-policy.html
 
