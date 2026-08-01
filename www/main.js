@@ -4244,8 +4244,7 @@ function refreshSaveSlots() {
 
 
 document.getElementById('quit-btn').addEventListener('click', () => {
-    // Return to main menu without confirming (or confirm if we want to change this later)
-    location.reload();
+    returnToMainMenu();
 });
 
 const pauseQuitBtn = document.getElementById('pause-quit-btn');
@@ -4521,7 +4520,7 @@ document.getElementById('victory-restart-btn')?.addEventListener('click', () => 
 });
 
 document.getElementById('victory-menu-btn')?.addEventListener('click', () => {
-    location.reload();
+    returnToMainMenu();
 });
 
 document.getElementById('prestige-btn')?.addEventListener('click', () => {
@@ -4688,7 +4687,10 @@ function refreshAllSaveSlots() {
     if (typeof refreshSaveSlots === 'function') refreshSaveSlots();
 }
 
+let suppressSessionSnapshot = false;
+
 function snapshotSession() {
+    if (suppressSessionSnapshot) return;
     if (!player || (gameState !== 'PLAYING' && gameState !== 'PAUSED')) return;
     try {
         const data = {
@@ -4714,7 +4716,13 @@ function snapshotSession() {
 }
 
 function clearSession() {
+    suppressSessionSnapshot = true;
     try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+}
+
+function returnToMainMenu() {
+    clearSession();
+    location.reload();
 }
 
 function tryRestoreSession() {
@@ -4797,7 +4805,7 @@ window.addEventListener('pageshow', () => {
 const _origRestart = document.getElementById('restart-btn');
 _origRestart?.addEventListener('click', () => clearSession());
 document.getElementById('pause-restart-btn')?.addEventListener('click', () => clearSession());
-document.getElementById('quit-btn')?.addEventListener('click', () => clearSession());
+// quit-btn already uses returnToMainMenu() (clears session before reload)
 
 // ==========================================
 // ANDROID: background audio mute + back-to-exit

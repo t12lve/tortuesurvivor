@@ -70,3 +70,6 @@ __pycache__/
 /tools_patch_android_main.js
 tools/generate-play-store-pdf.py
 
+
+/icon512.png
+
