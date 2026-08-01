@@ -8,9 +8,20 @@ Survivor-like satirique en portrait : tu incarnes une tortue et tu dois tenir **
 | **Package Play Store** | `com.t12lve.tortuesurvivor` |
 | **Version Android** | `0.1.1` (versionCode `2`) — alpha |
 | **Confidentialité** | [Politique (GitHub Pages)](https://t12lve.github.io/tortuesurvivor/privacy-policy.html) |
+| **Jouer** | [t12lve.github.io/tortuesurvivor](https://t12lve.github.io/tortuesurvivor/) |
 | **Dépôt** | [github.com/t12lve/tortuesurvivor](https://github.com/t12lve/tortuesurvivor) |
 
 > Alpha publique : bugs et équilibrages encore possibles. Pas de pubs, pas de compte obligatoire. Sauvegardes locales sur l’appareil.
+
+---
+
+## Jouer en ligne
+
+**[▶ Jouer dans le navigateur](https://t12lve.github.io/tortuesurvivor/)**
+
+Version web de `index.html` + assets `source/`, via GitHub Pages. Clique une fois pour activer le son. Expérience idéale sur desktop ; sur téléphone, préférer l’app Android.
+
+Privacy (inchangée) : https://t12lve.github.io/tortuesurvivor/privacy-policy.html
 
 ---
 

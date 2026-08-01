@@ -127,24 +127,24 @@ let nextBreakingNewsTime = 30 + Math.random() * 60; // First news between 30s an
 
 let lastOstIndex = -1;
 let ostTracks = [
-    'source/OST/8bits mais 6e republique.mp3',
-    'source/OST/Accordeon de goch.mp3',
-    'source/OST/Capote Demon Hunter.mp3',
-    'source/OST/Ero M6 be like.mp3',
-    'source/OST/Espoir populaire.mp3',
-    'source/OST/La marche.mp3',
-    'source/OST/Latino Revolucion.mp3',
-    'source/OST/Les fantomes du capitalisme.mp3',
-    'source/OST/On est chill a boire un lait fraise.mp3',
-    'source/OST/POV Bernard Arnaud paye des impots.mp3',
-    'source/OST/POV je touche le smic a 1700euros.mp3',
-    'source/OST/Slow as Capitalism.mp3',
-    'source/OST/Un reve de pixels.mp3',
-    'source/OST/Wallah cest pas Nelly.mp3'
+    'source/ost/8bits mais 6e republique.mp3',
+    'source/ost/Accordeon de goch.mp3',
+    'source/ost/Capote Demon Hunter.mp3',
+    'source/ost/Ero M6 be like.mp3',
+    'source/ost/Espoir populaire.mp3',
+    'source/ost/La marche.mp3',
+    'source/ost/Latino Revolucion.mp3',
+    'source/ost/Les fantomes du capitalisme.mp3',
+    'source/ost/On est chill a boire un lait fraise.mp3',
+    'source/ost/POV Bernard Arnaud paye des impots.mp3',
+    'source/ost/POV je touche le smic a 1700euros.mp3',
+    'source/ost/Slow as Capitalism.mp3',
+    'source/ost/Un reve de pixels.mp3',
+    'source/ost/Wallah cest pas Nelly.mp3'
 ];
 
 // Auto-detect new OSTs (works if hosted via local directory listing server)
-fetch('source/OST/')
+fetch('source/ost/')
     .then(res => res.text())
     .then(html => {
         const parser = new DOMParser();
@@ -158,7 +158,7 @@ fetch('source/OST/')
                 if (!cleanName.toLowerCase().startsWith('source/ost/')) {
                     // Extract just filename if path is complex
                     const parts = cleanName.split(/[\/\\]/);
-                    cleanName = 'source/OST/' + parts[parts.length - 1];
+                    cleanName = 'source/ost/' + parts[parts.length - 1];
                 }
                 return cleanName;
             });
@@ -529,7 +529,7 @@ function init() {
 
     // Attempt to play OST in menu
     ostAudio.volume = 0.2; // default
-    ostAudio.src = 'source/OST/Title Theme Tortue Survivor.mp3';
+    ostAudio.src = 'source/ost/Title Theme Tortue Survivor.mp3';
     ostAudio.loop = false;
     
     const unlockAudio = () => {
@@ -3753,7 +3753,7 @@ function playRandomOst() {
 
 document.body.addEventListener('click', () => {
     if (ostAudio.paused && gameState === 'MENU') {
-        ostAudio.src = 'source/OST/Title Theme Tortue Survivor.mp3';
+        ostAudio.src = 'source/ost/Title Theme Tortue Survivor.mp3';
         ostAudio.play().catch(e=>console.log(e));
     }
 }, {once: true});
@@ -3762,7 +3762,7 @@ ostAudio.addEventListener('ended', () => {
     if (gameState === 'MENU') {
         setTimeout(() => {
             if (gameState === 'MENU') {
-                ostAudio.src = 'source/OST/Title Theme Tortue Survivor.mp3';
+                ostAudio.src = 'source/ost/Title Theme Tortue Survivor.mp3';
                 ostAudio.play().catch(e => console.log('Autoplay issue:', e));
             }
         }, 30000); // 30 seconds delay between loops
