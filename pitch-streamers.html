@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tortue Survivor — Pitch streamers</title>
-  <meta name="description" content="Pitch Tortue Survivor : survivor-like satirique pour streamers. Convaincre la République en 12 minutes." />
+  <title>Tortue Survivor</title>
+  <meta name="description" content="Tortue Survivor — un survivor-like satirique. Incarnez une tortue, tenez douze minutes, convainquez plutôt que détruire." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Pacifico&display=swap" rel="stylesheet" />
@@ -15,11 +15,9 @@
       --ink: #f7eef8;
       --muted: #c9b3d4;
       --lavender: #d8b4e2;
-      --shell: #8b3a62;
       --magenta: #ff2d9b;
       --magenta-deep: #c2185b;
       --violet: #6a1b9a;
-      --violet-deep: #3a0a4a;
       --white: #ffffff;
       --safe: max(1.25rem, env(safe-area-inset-left));
     }
@@ -44,78 +42,52 @@
     a:hover { color: var(--magenta); }
 
     .wrap {
-      width: min(920px, 100%);
+      width: min(880px, 100%);
       margin: 0 auto;
       padding: 2.5rem var(--safe) 4rem;
     }
 
-    /* —— Hero —— */
     .hero {
       position: relative;
-      min-height: min(92vh, 820px);
+      min-height: min(88vh, 760px);
       display: grid;
       align-content: center;
-      gap: 1.25rem;
-      padding-bottom: 2rem;
+      gap: 1.1rem;
+      padding-bottom: 1.5rem;
     }
 
     .hero-brand {
-      width: min(420px, 88vw);
+      width: min(400px, 86vw);
       height: auto;
       display: block;
       filter: drop-shadow(0 12px 40px rgba(255, 45, 155, 0.25));
       animation: brandIn 1s ease-out both;
     }
 
-    .hero-kicker {
-      margin: 0;
-      font-size: 0.95rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      animation: fadeUp 0.8s 0.15s ease-out both;
-    }
-
-    .hero h1 {
-      margin: 0;
-      max-width: 16ch;
-      font-size: clamp(2.1rem, 5.5vw, 3.4rem);
-      font-weight: 800;
-      line-height: 1.05;
-      background: linear-gradient(180deg, #e8c4f5 0%, #9c4dff 55%, #6a1b9a 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: fadeUp 0.8s 0.25s ease-out both;
-    }
-
-    .hero h1 .accent {
-      display: block;
-      font-family: "Pacifico", cursive;
-      font-weight: 400;
-      font-size: 0.72em;
-      background: none;
-      -webkit-background-clip: unset;
-      background-clip: unset;
-      color: var(--magenta);
-      text-shadow: 0 0 28px rgba(255, 45, 155, 0.45);
-      margin-top: 0.15em;
-    }
-
     .hero-lead {
       margin: 0;
+      max-width: 34rem;
+      font-size: clamp(1.15rem, 2.6vw, 1.4rem);
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--lavender);
+      animation: fadeUp 0.8s 0.2s ease-out both;
+    }
+
+    .hero-sub {
+      margin: 0;
       max-width: 36rem;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       color: var(--muted);
-      animation: fadeUp 0.8s 0.35s ease-out both;
+      animation: fadeUp 0.8s 0.3s ease-out both;
     }
 
     .cta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0.75rem 1rem;
-      margin-top: 0.5rem;
-      animation: fadeUp 0.8s 0.45s ease-out both;
+      margin-top: 0.35rem;
+      animation: fadeUp 0.8s 0.4s ease-out both;
     }
 
     .btn {
@@ -126,13 +98,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      padding: 0.85rem 1.35rem;
+      padding: 0.85rem 1.4rem;
       border-radius: 999px;
       font-family: inherit;
       font-weight: 700;
       font-size: 0.95rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .btn:active { transform: scale(0.98); }
 
@@ -159,13 +130,12 @@
 
     .turtle {
       position: absolute;
-      right: max(-1rem, calc(50% - 460px));
-      bottom: 4%;
-      width: min(280px, 42vw);
+      right: max(-1rem, calc(50% - 440px));
+      bottom: 6%;
+      width: min(260px, 40vw);
       pointer-events: none;
       filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
-      animation: turtleBob 3.2s ease-in-out infinite, fadeIn 1s 0.4s both;
-      z-index: 1;
+      animation: turtleBob 3.2s ease-in-out infinite, fadeIn 1s 0.35s both;
     }
 
     @media (max-width: 720px) {
@@ -173,22 +143,21 @@
         position: relative;
         right: auto;
         bottom: auto;
-        width: min(200px, 55vw);
-        margin: 0.5rem 0 0;
+        width: min(190px, 52vw);
+        margin-top: 0.75rem;
         justify-self: end;
       }
-      .hero { min-height: auto; padding-top: 1rem; }
+      .hero { min-height: auto; }
     }
 
-    /* —— Sections —— */
     section {
-      margin: 3.5rem 0;
-      animation: fadeUp 0.7s ease-out both;
+      margin: 3.25rem 0;
+      max-width: 38rem;
     }
 
     .section-label {
-      margin: 0 0 0.5rem;
-      font-size: 0.8rem;
+      margin: 0 0 0.45rem;
+      font-size: 0.78rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--magenta);
@@ -196,96 +165,42 @@
     }
 
     h2 {
-      margin: 0 0 0.85rem;
-      font-size: clamp(1.45rem, 3vw, 1.9rem);
+      margin: 0 0 0.75rem;
+      font-size: clamp(1.35rem, 2.8vw, 1.75rem);
       font-weight: 800;
       line-height: 1.15;
-      max-width: 22ch;
     }
 
-    .one-liner {
-      font-size: 1.25rem;
-      color: var(--lavender);
-      max-width: 40rem;
-      margin: 0 0 1rem;
-    }
-
-    .points {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 0.85rem;
-    }
-
-    .points li {
-      position: relative;
-      padding: 0.95rem 1rem 0.95rem 2.6rem;
-      border-left: 3px solid var(--magenta);
-      background: linear-gradient(90deg, rgba(255, 45, 155, 0.08), transparent 70%);
-    }
-
-    .points li::before {
-      content: "◆";
-      position: absolute;
-      left: 0.9rem;
-      top: 0.95rem;
-      color: var(--magenta);
-      font-size: 0.7rem;
-    }
-
-    .points strong {
-      display: block;
-      color: var(--white);
-      margin-bottom: 0.15rem;
-    }
-
-    .points span { color: var(--muted); font-size: 0.98rem; }
-
-    .quotes {
-      display: grid;
-      gap: 0.65rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .quotes li {
-      font-size: 1.05rem;
-      color: var(--lavender);
-      padding: 0.55rem 0;
-      border-bottom: 1px solid rgba(216, 180, 226, 0.12);
-    }
-    .quotes li::before {
-      content: "« ";
-      color: var(--magenta);
-    }
-    .quotes li::after { content: " »"; color: var(--magenta); }
-
-    .dm {
-      white-space: pre-wrap;
-      font-family: "Outfit", sans-serif;
-      font-size: 0.98rem;
+    section p {
+      margin: 0 0 0.85rem;
       color: var(--muted);
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(216, 180, 226, 0.18);
-      border-radius: 12px;
-      padding: 1.25rem 1.35rem;
-      margin: 0;
-      line-height: 1.6;
+      font-size: 1.05rem;
     }
 
-    .links {
+    section p strong { color: var(--white); font-weight: 600; }
+
+    .chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem 1.25rem;
-      margin-top: 1rem;
-      font-size: 0.95rem;
+      gap: 0.55rem;
+      margin: 1rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .chips li {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--lavender);
+      border: 1px solid rgba(216, 180, 226, 0.28);
+      background: rgba(255, 45, 155, 0.06);
     }
 
     footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
+      margin-top: 3.5rem;
+      padding-top: 1.35rem;
       border-top: 1px solid rgba(216, 180, 226, 0.15);
       color: var(--muted);
       font-size: 0.9rem;
@@ -328,118 +243,78 @@
         class="hero-brand"
         src="source/logo_splash.png"
         alt="Tortue Survivor"
-        width="420"
-        height="420"
+        width="400"
+        height="400"
       />
-      <p class="hero-kicker">Pitch stream · satire politique · alpha</p>
-      <h1>
-        Vampire Survivors
-        <span class="accent">a quitté le capitalisme</span>
-      </h1>
       <p class="hero-lead">
-        Tu incarnes une tortue. Tu tiens 12 minutes. Tu ne farm pas des cadavres&nbsp;:
-        tu <strong style="color: var(--white)">convaincs</strong> journalistes, politiciens et milliardaires.
-        Win condition&nbsp;: la 6ᵉ République.
+        Un survivor-like satirique&nbsp;: vous incarnez une tortue et vous devez tenir&nbsp;12&nbsp;minutes.
+      </p>
+      <p class="hero-sub">
+        Face à une République un peu trop bruyante, l’idée n’est pas de tout détruire —
+        c’est de <strong style="color: var(--white)">convaincre</strong>. Humour décalé, ambiance pixel, partie solo courte.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://t12lve.github.io/tortuesurvivor/" target="_blank" rel="noopener">Jouer dans le navigateur</a>
-        <a class="btn btn-ghost" href="#dm">Copier le DM</a>
+        <a class="btn btn-primary" href="https://t12lve.github.io/tortuesurvivor/" target="_blank" rel="noopener">Jouer</a>
+        <a class="btn btn-ghost" href="https://github.com/t12lve/tortuesurvivor" target="_blank" rel="noopener">GitHub</a>
       </div>
       <img
         class="turtle"
         src="source/leftfront.png"
-        alt="La tortue héroïne"
-        width="280"
-        height="280"
+        alt="La tortue"
+        width="260"
+        height="260"
       />
     </header>
 
     <section>
-      <p class="section-label">Accroche</p>
-      <h2>En une phrase</h2>
-      <p class="one-liner">
-        Survivor-like satirique FR&nbsp;: même loop addictive, morale inversée — convaincre plutôt qu’éliminer.
+      <p class="section-label">Le jeu</p>
+      <h2>Tenir. Convaincre. Rester vivant.</h2>
+      <p>
+        <strong>Tortue Survivor</strong> reprend la boucle d’un survivor-like classique —
+        déplacement, montée en puissance, vague après vague — avec un ton franchement satirique
+        et une mécanique centrale un peu à part&nbsp;: on avance en convaincant, pas en nettoyant la carte.
+      </p>
+      <p>
+        Une partie dure environ une douzaine de minutes. Assez pour une session rapide,
+        assez dense pour empiler pouvoirs, défis et surprises au fil du chrono.
       </p>
     </section>
 
     <section>
-      <p class="section-label">Pourquoi streamer ça</p>
-      <h2>Avantages pour un live de gauche</h2>
-      <ul class="points">
-        <li>
-          <strong>Angle politique intégré</strong>
-          <span>Les cibles sont immédiatement commentables. Le jeu *est* le bit — pas besoin d’inventer un prétexte.</span>
-        </li>
-        <li>
-          <strong>Format stream-friendly</strong>
-          <span>Runs ~12 minutes. Plusieurs builds, fails, réactions chat. Zéro tutoriel interminable.</span>
-        </li>
-        <li>
-          <strong>Décalé & clipable</strong>
-          <span>Tortue + conviction + 6ᵉ République = titres absurdes, moments mèmeables.</span>
-        </li>
-        <li>
-          <strong>Éthique soft</strong>
-          <span>Pas de pubs, pas de compte, pas de battle pass. Cohérent avec un discours anti-industrie toxique.</span>
-        </li>
-        <li>
-          <strong>Zéro friction</strong>
-          <span>Lien navigateur : tu lances en direct, le chat joue aussi s’il veut.</span>
-        </li>
+      <p class="section-label">Ambiance</p>
+      <h2>Satire, pixels, musique maison</h2>
+      <p>
+        Le jeu caricature le bruit médiatique et politique sans spoiler le plateau&nbsp;:
+        figures archétypales, punchlines, OST originale. C’est volontairement décalé —
+        tendre côté tortue, acerbe côté monde autour.
+      </p>
+      <ul class="chips">
+        <li>Solo · ~12 min</li>
+        <li>Portrait</li>
+        <li>Sans pub</li>
+        <li>Sans compte</li>
+        <li>Alpha</li>
       </ul>
     </section>
 
     <section>
-      <p class="section-label">Titres / chat</p>
-      <h2>Phrases décalées</h2>
-      <ul class="quotes">
-        <li>Aujourd’hui on farm le SMIC et on dash dans les JT</li>
-        <li>Speedrun 6ᵉ République (any%)</li>
-        <li>Je suis une tortue et je vais convaincre Bernard</li>
-        <li>Ce n’est pas un FPS : c’est un CPS (Convaincre Par Seconde)</li>
-      </ul>
-    </section>
-
-    <section id="dm">
-      <p class="section-label">Message type</p>
-      <h2>DM / mail à envoyer</h2>
-      <pre class="dm">Salut [Prénom],
-
-Je te pitch Tortue Survivor, un petit survivor-like satirique FR (alpha) : tu joues une tortue, tu tiens 12 minutes, et au lieu de one-shot le monde tu convaincs journalistes, politiciens et milliardaires.
-
-C’est décalé, assumé politiquement, parfait pour un run commenté : builds absurdes (SMIC, ISF climatique…), bosses caricaturaux, OST maison.
-
-Jouer direct (desktop) :
-https://t12lve.github.io/tortuesurvivor/
-
-Si ça te parle, un run de 15–20 min + ton regard politique dessus serait déjà ouf. Alpha = retours bienvenus.
-
-Merci !</pre>
-      <div class="links">
-        <a href="https://t12lve.github.io/tortuesurvivor/" target="_blank" rel="noopener">▶ Jouer</a>
-        <a href="https://github.com/t12lve/tortuesurvivor" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://t12lve.github.io/tortuesurvivor/privacy-policy.html" target="_blank" rel="noopener">Confidentialité</a>
-      </div>
-    </section>
-
-    <section>
-      <p class="section-label">Deroulé</p>
-      <h2>Structure de stream (20–40 min)</h2>
-      <ul class="points">
-        <li><strong>0–1 min</strong><span>Pitch 30 s + lien dans le chat.</span></li>
-        <li><strong>Run 1</strong><span>Découverte, rire des pouvoirs, laisser le chat nommer les builds.</span></li>
-        <li><strong>Run 2</strong><span>« Build idéologique » — full satire média ou full social.</span></li>
-        <li><strong>Fin</strong><span>Q&amp;A : trop soft / trop cash ? CTA follow + retours.</span></li>
-      </ul>
-      <p class="hero-lead" style="margin-top: 1.25rem;">
-        Disclaimer une phrase&nbsp;: <em style="color: var(--lavender)">« Alpha : ça peut bugger. Satire caricaturale, pas un tract — mais clairement pas neutre. »</em>
+      <p class="section-label">Plateformes</p>
+      <h2>Navigateur &amp; Android</h2>
+      <p>
+        Jouable tout de suite dans le navigateur (idéal sur desktop).
+        Version Android en cours de publication sur le Play Store.
+      </p>
+      <p>
+        Version encore en alpha&nbsp;: bugs et équilibrages possibles.
+        Les retours sont les bienvenus.
       </p>
     </section>
 
     <footer>
       <p>
         <span class="brand-word">Tortue Survivor</span>
-        · pitch non spoiler · sprites joueur + logo uniquement
+        ·
+        <a href="https://t12lve.github.io/tortuesurvivor/privacy-policy.html">Confidentialité</a>
       </p>
     </footer>
   </div>
