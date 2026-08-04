@@ -198,6 +198,33 @@
       background: rgba(255, 45, 155, 0.06);
     }
 
+    .store-short {
+      margin: 0 0 1rem;
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--lavender);
+    }
+
+    .store-desc {
+      white-space: pre-wrap;
+      margin: 0;
+      padding: 1.15rem 1.25rem;
+      font-family: inherit;
+      font-size: 0.98rem;
+      line-height: 1.55;
+      color: var(--muted);
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(216, 180, 226, 0.18);
+      border-radius: 12px;
+    }
+
+    .store-link {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      word-break: break-all;
+    }
+
     footer {
       margin-top: 3.5rem;
       padding-top: 1.35rem;
@@ -254,7 +281,8 @@
         c’est de <strong style="color: var(--white)">convaincre</strong>. Humour décalé, ambiance pixel, partie solo courte.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://t12lve.github.io/tortuesurvivor/" target="_blank" rel="noopener">Jouer</a>
+        <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.t12lve.tortuesurvivor" target="_blank" rel="noopener">Play Store</a>
+        <a class="btn btn-ghost" href="https://t12lve.github.io/tortuesurvivor/" target="_blank" rel="noopener">Jouer (navigateur)</a>
         <a class="btn btn-ghost" href="https://github.com/t12lve/tortuesurvivor" target="_blank" rel="noopener">GitHub</a>
       </div>
       <img
@@ -298,11 +326,38 @@
     </section>
 
     <section>
+      <p class="section-label">Play Store</p>
+      <h2>Sur Google Play</h2>
+      <p class="store-short">Survivez 12 minutes, convainquez la République. Survivor-like satirique.</p>
+      <pre class="store-desc">Tortue Survivor est un survivor-like satirique en portrait : vous incarnez une tortue qui doit tenir 12 minutes face à journalistes, politiciens et milliardaires — en les convainquant plutôt qu’en les détruisant.
+
+FONCTIONNALITÉS
+• Partie solo d’environ 12 minutes
+• Powers politiques décalés (SMIC, ISF climatique, 6e République…)
+• Joystick virtuel + dash tactile
+• Musiques originales et ambiance pixel
+
+VERSION 0.1 (ALPHA)
+Le jeu est encore en développement. Des bugs, des freezes sur certains appareils et des équilibrages peuvent survenir. Merci pour vos retours.
+
+CONTRÔLES
+• Joystick : se déplacer
+• Bouton bas-droite : dash
+• Bouton haut-gauche : pause
+
+ATTENTION AU CONTENU
+Satire politique et médiatique. Personnages caricaturaux. Déconseillé aux très jeunes enfants.
+
+Pas de publicité. Pas de compte obligatoire. La progression peut être sauvegardée localement sur l’appareil.</pre>
+      <a class="store-link" href="https://play.google.com/store/apps/details?id=com.t12lve.tortuesurvivor" target="_blank" rel="noopener">https://play.google.com/store/apps/details?id=com.t12lve.tortuesurvivor</a>
+    </section>
+
+    <section>
       <p class="section-label">Plateformes</p>
       <h2>Navigateur &amp; Android</h2>
       <p>
-        Jouable tout de suite dans le navigateur (idéal sur desktop).
-        Version Android en cours de publication sur le Play Store.
+        Jouable dans le navigateur (idéal sur desktop) et sur Android via le Play Store
+        (la fiche peut rester inaccessible tant que la publication n’est pas validée).
       </p>
       <p>
         Version encore en alpha&nbsp;: bugs et équilibrages possibles.
@@ -313,6 +368,8 @@
     <footer>
       <p>
         <span class="brand-word">Tortue Survivor</span>
+        ·
+        <a href="https://play.google.com/store/apps/details?id=com.t12lve.tortuesurvivor">Play Store</a>
         ·
         <a href="https://t12lve.github.io/tortuesurvivor/privacy-policy.html">Confidentialité</a>
       </p>
