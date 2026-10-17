@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Tortue Survivor</string>
-    <string name="title_activity_main">Tortue Survivor</string>
-    <string name="package_name">com.t12lve.tortuesurvivor</string>
-    <string name="custom_url_scheme">com.t12lve.tortuesurvivor</string>
-</resources>

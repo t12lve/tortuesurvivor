@@ -1,125 +1,48 @@
 # Tortue Survivor
 
-Survivor-like satirique en portrait : tu incarnes une tortue et tu dois tenir **12 minutes** face à journalistes, politiciens et milliardaires — en les **convainquant**, pas en les détruisant.
+Survivor-like satirique : vous incarnez une tortue et devez tenir **12 minutes** face aux journalistes, politiciens et milliardaires — en les **convainquant**, pas en les détruisant !
 
-| | |
-|---|---|
-| **Plateformes** | Android (Capacitor) · Desktop Windows (Electron) |
-| **Package Play Store** | `com.t12lve.tortuesurvivor` |
-| **Version Android** | `0.1.1` (versionCode `2`) — alpha |
-| **Confidentialité** | [Politique (GitHub Pages)](https://t12lve.github.io/tortuesurvivor/privacy-policy.html) |
-| **Jouer** | [t12lve.github.io/tortuesurvivor](https://t12lve.github.io/tortuesurvivor/) |
-| **Dépôt** | [github.com/t12lve/tortuesurvivor](https://github.com/t12lve/tortuesurvivor) |
+Cette application a été réécrite en tant qu'application **React + TypeScript + Vite** moderne avec rendu 2D/3D propulsé par Three.js.
 
-> Alpha publique : bugs et équilibrages encore possibles. Pas de pubs, pas de compte obligatoire. Sauvegardes locales sur l’appareil.
+## Fonctionnalités
 
----
+- **Gameplay survie complet (12 minutes)** : Vagues d'ennemis dynamiques, mise à l'échelle de la difficulté dans le temps.
+- **Arsenal satirique et pouvoirs politiques** :
+  - *Le SMIC à 1700€ net* : Rafale de billets verts à haute vitesse
+  - *Le Service Public de l'Eau* : Jet perçant traversant les foules
+  - *La Règle Verte* : Aura de contact tranchante
+  - *Retraite à 60 ans* : Zone de ralentissement temporel
+  - *Garantie d'Autonomie* : Orbes dorés orbitaux protecteurs
+  - *Blocage des Prix* : Onde de choc givrante
+  - *ISF Climatique* : Éclair fiscal ciblé
+  - *Cantine Bio & Locale* : Soin passif régulier
+  - *Révoquer les Élus* : Météore de destitution sur l'adversaire le plus résistant
+  - *Référendum d'Autodétermination* : Zone circulaire de conversion pacifique des ennemis
+  - *Le Rush Kranidos* : Charge ultra-rapide invincible laissant du feu
+  - *Taxe Zucman & Allocation d'Autonomie* : Réduction d'esquive des milliardaires et bonus XP
+- **Ennemis & Boss** :
+  - Journalistes, Politiciens, Milliardaires (avec 25% d'évasion fiscale)
+  - Mini-boss Léa & Raph traversant l'écran
+  - Mega Glucksmann & Mega Tondelier déclenchés par les combos
+  - Mega Boss final : Marine Le Pen à 12:00 avec flamme tricolore et attaques de bottes
+- **Alliés de la lutte (Ralliement)** :
+  - Sandrine Rousseau, Rima Hassan, Philippe Poutou et François Ruffin
+- **Système de sauvegardes** : 3 slots locaux via `localStorage`
+- **Options complètes** : Réglage du volume général, volume OST, échelle d'interface, affichage des nombres de dégâts, plein écran, et configuration personnalisée des touches
+- **Bande-son complète (OST)** : Sélection de 14 musiques rétro / chiptune / satire avec lecteur intégré
+- **Modes Bonus** : Mode Turbo (x2) et Ultra Turbo (x4) déblocables après victoire, et mode Prestige
 
-## Jouer en ligne
+## Développement
 
-**[▶ Jouer dans le navigateur](https://t12lve.github.io/tortuesurvivor/)**
-
-Version web de `index.html` + assets `source/`, via GitHub Pages. Clique une fois pour activer le son. Expérience idéale sur desktop ; sur téléphone, préférer l’app Android.
-
-Privacy (inchangée) : https://t12lve.github.io/tortuesurvivor/privacy-policy.html
-
----
-
-## Contenu du jeu
-
-- Partie solo ~12 minutes, progression par niveaux / pouvoirs
-- Attaques et bonus « politiques » (SMIC, ISF climatique, 6ᵉ République, etc.)
-- Contrôles Android : joystick virtuel, dash, pause
-- OST originale, sprites pixel, écran de victoire animé
-- Satire politique / médiatique — déconseillé aux très jeunes enfants
-
----
-
-## Architecture du dépôt
-
-Deux surfaces de jeu distinctes (ne pas les mélanger) :
-
-| Chemin | Rôle |
-|--------|------|
-| `www/` | **Fork Android** — HTML / JS / CSS Capacitor (`webDir`) |
-| `index.html`, `main.js`, `style.css`, `electron_main.js` | **Desktop Electron** |
-| `source/` | Assets canoniques (sprites, OST, vidéos) |
-| `android/` | Projet Gradle / Capacitor |
-| `tools/` | Scripts : sync Dropbox-safe, keystore, AAB, icônes |
-| `privacy-policy.html` | Page servie par GitHub Pages |
-
-**Non versionné (volontairement)** :
-
-- `www/source/` — doublon de `source/` (recréé au sync)
-- `docs/` — textes / graphiques Play Store (local uniquement)
-- `*.jks`, `keystore.properties` — secrets de signature
-- `node_modules/`, builds Gradle, APK / AAB, PSD, junk éditeur
-
-Sur Dropbox, préférer `npm run android:sync` / `android:bundle` plutôt que `npx cap sync` (risque `EBUSY` qui vide les assets).
-
----
-
-## Prérequis
-
-- Node.js + npm  
-- JDK 17+ (Android)  
-- Android Studio / SDK (pour ouvrir le projet ou builder)  
-- Windows recommandé pour les scripts Gradle / robocopy du sync
+Le projet tourne avec Vite sur le port 3000 :
 
 ```bash
 npm install
+npm run dev
 ```
 
----
-
-## Android
+Pour compiler l'application en production :
 
 ```bash
-# Copier www + source → assets Android (sans détruire le dossier source)
-npm run android:sync
-
-# Ouvrir dans Android Studio
-npm run android:open
-
-# APK debug → TortueSurvivor.apk
-npm run android:build
-
-# Keystore release (une seule fois, hors git — sauvegarder hors Dropbox)
-npm run android:keystore
-
-# AAB signé Play Store → TortueSurvivor-release.aab
-npm run android:bundle
+npm run build
 ```
-
-| Identifiant | Valeur |
-|-------------|--------|
-| applicationId | `com.t12lve.tortuesurvivor` |
-| versionName | `0.1.1` |
-| versionCode | `2` |
-
-Chaque upload Play Store exige `versionCode` incrémenté. Toujours le **même** keystore que la première publication.
-
----
-
-## Desktop (Electron)
-
-```bash
-npm start
-```
-
-Builds Windows (packager / installer) : voir scripts `build*` dans `package.json`.
-
----
-
-## Play Store (rappel)
-
-Matériel local (non commit) : `docs/play-store/listing-fr.md`, graphiques, guide PDF.  
-URL privacy à coller dans la Console :
-
-https://t12lve.github.io/tortuesurvivor/privacy-policy.html
-
----
-
-## Licence / contact
-
-Projet personnel / alpha. Retours : [Issues GitHub](https://github.com/t12lve/tortuesurvivor/issues).

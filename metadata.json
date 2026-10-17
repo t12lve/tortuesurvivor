@@ -1,0 +1,8 @@
+{
+  "name": "Tortue Survivor",
+  "description": "Tortue Survivor - Jeu de survie politique en hommage à la 6ème République",
+  "version": "1.0.0",
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

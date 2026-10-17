@@ -4,18 +4,10 @@
   "description": "Tortue Survivor - Jeu de survie politique",
   "main": "electron_main.js",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
-    "build:clean": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist_clean --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(source/animations/pixelbg_mov\\.webm|temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
-    "build:final": "electron-packager . TortueSurvivor --platform=win32 --arch=x64 --out=dist_final --overwrite --icon=source/tortuesurvivor.ico --ignore=\"(source/animations/pixelbg_mov\\.webm|temp_neu|neutralino_bin|dist|dist_clean|dist_final|temp_clone|build_exe\\.js|\\.psd$|neutralino\\.config\\.json|neutralino-v5\\.6\\.0\\.zip|package-lock\\.json|node_modules)\"",
-    "build:portable": "electron-builder --win portable",
-    "build:installer": "electron-builder --win nsis",
-    "android:sync": "node tools/android-safe-sync.js",
-    "android:open": "npx cap open android",
-    "android:build": "node tools/android-safe-sync.js && cd android && .\\gradlew.bat assembleDebug && copy /Y app\\build\\outputs\\apk\\debug\\app-debug.apk ..\\TortueSurvivor.apk",
-    "android:cap-update": "npx cap update android",
-    "android:keystore": "node tools/create-release-keystore.js",
-    "android:bundle": "node tools/android-bundle-release.js"
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
   },
   "build": {
     "appId": "com.vibecoding.tortuesurvivor",
@@ -58,12 +50,24 @@
     "@capacitor/android": "^8.4.2",
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.4.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
     "electron": "^43.2.0",
     "electron-builder": "^25.1.8",
-    "electron-packager": "^17.1.2"
+    "electron-packager": "^17.1.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.1",
-    "@capacitor/core": "^8.4.2"
+    "@capacitor/core": "^8.4.2",
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
   }
 }
